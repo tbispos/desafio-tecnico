@@ -7,45 +7,45 @@ namespace Domain.Service
 {
     public class CardService : ICardService
     {
-        private readonly ICardRepository _repo;
-        public CardService(ICardRepository repo)
+        private readonly ICardRepository cardRepository;
+        public CardService(ICardRepository cardRepository)
         {
-            _repo = repo;
+            this.cardRepository = cardRepository;
         }
 
         public Card Get(int id)
         {
             //Busca no banco o card
-            var card = _repo.Get(id);
+            var card = cardRepository.Get(id);
 
             return card;
         }
         public List<Card> GetAll()
         {
             //Busca no banco os cards
-            var cards = _repo.GetAll();
+            var cards = cardRepository.GetAll();
 
             return cards;
         }
         public bool VerificarExiste(int id)
         {
-            return _repo.Get(id) != null;
+            return cardRepository.Get(id) != null;
         }
 
         public Card Add(Card card)
         {
-            _repo.Add(card);
+            cardRepository.Add(card);
             return card;
         }
 
         public void Update(Card card)
         {
-            _repo.Update(card);
+            cardRepository.Update(card);
         }
 
         public void Delete(Card card)
         {
-            _repo.Delete(card);
+            cardRepository.Delete(card);
         }
     }
 }

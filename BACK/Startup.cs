@@ -17,6 +17,9 @@ using Domain.Interface.Repository;
 using Domain.Context;
 using Domain.Repository;
 using Microsoft.EntityFrameworkCore;
+using BACK.Middlewares;
+using Domain.Interface.Login;
+using Domain.Login;
 
 namespace BACK
 {
@@ -42,6 +45,8 @@ namespace BACK
 
             // Interfaces das Services
             services.AddScoped<ICardService, CardService>();
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<ISigningConfigurations, SigningConfigurations>();
 
             // Interfaces dos Repositórios
             services.AddScoped<ICardRepository, CardRepository>();
@@ -66,18 +71,18 @@ namespace BACK
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BACK v1"));
             }
 
-            //app.UseCors(config =>
-            //{
-            //    config.AllowAnyOrigin();
-            //    config.AllowAnyHeader();
-            //    config.AllowAnyMethod();
+            app.UseCors(config =>
+            {
+                config.AllowAnyOrigin();
+                config.AllowAnyHeader();
+                config.AllowAnyMethod();
 
-            //});
+            });
 
             app.UseHttpsRedirection();
-
+            app.UseMiddleware<Middleware>();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

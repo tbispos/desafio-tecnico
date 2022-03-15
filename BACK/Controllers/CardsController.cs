@@ -15,13 +15,13 @@ namespace BACK.Controllers
     [ApiController]
     public class CardsController : ControllerBase
     {
-        private readonly ICardService _service;
-        private readonly IMapper _mapper;
+        private readonly ICardService cardService;
+        private readonly IMapper mapper;
 
-        public CardsController(ICardService service, IMapper mapper)
+        public CardsController(ICardService cardService, IMapper mapper)
         {
-            _service = service;
-            _mapper = mapper;
+            this.cardService = cardService;
+            this.mapper      = mapper;
         }
 
         /// <summary>
@@ -36,8 +36,8 @@ namespace BACK.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "List<CardDto>", typeof(List<CardDto>))]
         public IActionResult GetAll()
         {
-            var cards    = _service.GetAll();                    // Recupera a lista de cards do Banco
-            var cardsDto = _mapper.Map<List<CardDto>>(cards);    // Mapeia a lista de Card para uma Dto para enviar pro front
+            var cards    = cardService.GetAll();                    // Recupera a lista de cards do Banco
+            var cardsDto = mapper.Map<List<CardDto>>(cards);    // Mapeia a lista de Card para uma Dto para enviar pro front
 
             return StatusCode(200, cardsDto);
         }
@@ -60,9 +60,9 @@ namespace BACK.Controllers
             if (value.id != 0)
                 return StatusCode(400);                 // 400BadRequest
 
-            var card = _mapper.Map<Card>(value);         // Recebe uma Dto do front e mapeia para entidade Card
-            _service.Add(card);                          // Salva o card
-            var cardDto = _mapper.Map<CardDto>(card);    // Mapeia o Card salvo para uma Dto com o id da pk gerado pelo banco e devolve para o front
+            var card = mapper.Map<Card>(value);         // Recebe uma Dto do front e mapeia para entidade Card
+            cardService.Add(card);                          // Salva o card
+            var cardDto = mapper.Map<CardDto>(card);    // Mapeia o Card salvo para uma Dto com o id da pk gerado pelo banco e devolve para o front
 
             return StatusCode(201, cardDto);
         }
@@ -88,12 +88,12 @@ namespace BACK.Controllers
             if (id != value.id)
                 return StatusCode(400);                 // 400BadRequest
 
-            if (!_service.VerificarExiste(id))          // Valida existe
+            if (!cardService.VerificarExiste(id))          // Valida existe
                 return StatusCode(404);                 // 404NotFound
 
-            var card = _mapper.Map<Card>(value);        // Recebe uma Dto do front e mapeia para entidade Card
-            _service.Update(card);                      // Salva o card
-            var cardDto = _mapper.Map<CardDto>(card);   // Mapeia o Card alterado para uma Dto e devolve para o front
+            var card = mapper.Map<Card>(value);        // Recebe uma Dto do front e mapeia para entidade Card
+            cardService.Update(card);                      // Salva o card
+            var cardDto = mapper.Map<CardDto>(card);   // Mapeia o Card alterado para uma Dto e devolve para o front
 
             return StatusCode(200, cardDto);
         }
@@ -113,14 +113,14 @@ namespace BACK.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete([FromRoute] int id)
         {
-            if (!_service.VerificarExiste(id))                  // Valida existe
+            if (!cardService.VerificarExiste(id))                  // Valida existe
                 return StatusCode(404);                         // 404NotFound
 
-            var card = _service.Get(id);                        // Recupera o Card a ser excluído
-            _service.Delete(card);
+            var card = cardService.Get(id);                        // Recupera o Card a ser excluído
+            cardService.Delete(card);
 
-            var cards = _service.GetAll();                      // Recupera a lista de cards do Banco
-            var cardsDto = _mapper.Map<List<CardDto>>(cards);   // Mapeia a lista de Card para uma Dto para enviar pro front
+            var cards = cardService.GetAll();                      // Recupera a lista de cards do Banco
+            var cardsDto = mapper.Map<List<CardDto>>(cards);   // Mapeia a lista de Card para uma Dto para enviar pro front
 
             return StatusCode(200, cardsDto);
         }
