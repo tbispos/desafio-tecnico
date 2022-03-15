@@ -10,14 +10,14 @@ namespace Domain.Login
 {
     public class SigningConfigurations : ISigningConfigurations
     {
-        public SecurityKey Key { get; }
+        public SecurityKey Key                       { get; }
         public SigningCredentials SigningCredentials { get; }
 
         public SigningConfigurations()
         {
             // Gera sempre a mesma chave
             Key = new SymmetricSecurityKey
-                       (Encoding.UTF8.GetBytes("a5ccc8bf4fda565c57f798a9cc7a9b6c0a54e6f2ed93ecfe404aef4aa70f15fa"));
+                       (Encoding.UTF8.GetBytes("a5ccd8bf5fda564c85f798a9cc7a9b6c0a54e6f2ed93efge454aef4ef70f55tt"));
 
             SigningCredentials = new SigningCredentials(Key, SecurityAlgorithms.HmacSha256);
         }

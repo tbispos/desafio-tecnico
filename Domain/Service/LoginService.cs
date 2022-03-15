@@ -35,7 +35,7 @@ namespace Domain.Service
                 SigningCredentials  = signingConfigurations.SigningCredentials,
                 Subject             = identity,
                 NotBefore           = DateTime.Now,
-                Expires             = DateTime.Now.AddMinutes(5)
+                Expires             = DateTime.Now.AddMinutes(60)
             }); ;
 
             var token = handler.WriteToken(securityToken);
