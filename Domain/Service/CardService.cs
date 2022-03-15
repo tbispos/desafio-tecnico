@@ -1,4 +1,5 @@
 ﻿using Domain.Entidades;
+using Domain.Interface.Repository;
 using Domain.Interface.Service;
 using System.Collections.Generic;
 
@@ -6,25 +7,45 @@ namespace Domain.Service
 {
     public class CardService : ICardService
     {
+        private readonly ICardRepository _repo;
+        public CardService(ICardRepository repo)
+        {
+            _repo = repo;
+        }
+
+        public Card Get(int id)
+        {
+            //Busca no banco o card
+            var card = _repo.Get(id);
+
+            return card;
+        }
         public List<Card> GetAll()
         {
-            List<Card> ret = new List<Card>();
+            //Busca no banco os cards
+            var cards = _repo.GetAll();
 
-            for (int i = 0; i < 10; i++)
-            {
-                Card c = new Card();
-                c.id        = i;
-                c.titulo    = i + "tit";
-                c.conteudo  = i + "cont";
-                c.lista     = Util.Enums.ListaStatus.Doing;
+            return cards;
+        }
+        public bool VerificarExiste(int id)
+        {
+            return _repo.Get(id) != null;
+        }
 
-                ret.Add(c);
-            }
-            ret[2].lista = Util.Enums.ListaStatus.ToDo;
-            ret[3].lista = Util.Enums.ListaStatus.Done;
+        public Card Add(Card card)
+        {
+            _repo.Add(card);
+            return card;
+        }
 
+        public void Update(Card card)
+        {
+            _repo.Update(card);
+        }
 
-            return ret;
+        public void Delete(Card card)
+        {
+            _repo.Delete(card);
         }
     }
 }

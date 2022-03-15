@@ -1,16 +1,18 @@
 ﻿using Domain.Entidades;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Domain.Interface.Service
+namespace Domain.Interface.Repository
 {
-    public interface ICardService
+    public interface ICardRepository
     {
         Card Get(int id);
         List<Card> GetAll();
-        bool VerificarExiste(int id);
         Card Add(Card card);
         void Update(Card card);
         void Delete(Card card);
-
     }
 }

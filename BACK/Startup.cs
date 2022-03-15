@@ -13,7 +13,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
+using Domain.Interface.Repository;
+using Domain.Context;
+using Domain.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace BACK
 {
@@ -31,6 +34,10 @@ namespace BACK
         {
             services.AddAutoMapper(typeof(Startup));
 
+            // EF In Memory
+            services.AddScoped<ICardService, CardService>()
+                .AddScoped<ICardRepository, CardRepository>()
+                .AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("dbmemory"));
 
             // Interfaces das Services
             services.AddScoped<ICardService, CardService>();
