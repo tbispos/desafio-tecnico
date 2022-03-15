@@ -18,6 +18,11 @@ namespace Domain.Repository
         {
             _context = context;
         }
+        /// <summary>
+        /// Retorna um 
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
         public Card Add(Card card)
         {
             _context.Add(card);
@@ -25,7 +30,11 @@ namespace Domain.Repository
 
             return card;    
         }
-
+        /// <summary>
+        /// fwefe
+        /// </summary>
+        /// <param name="id">fwef</param>
+        /// <returns>fwfew</returns>
         public Card Get(int id)
         {
             var card = _context.Card

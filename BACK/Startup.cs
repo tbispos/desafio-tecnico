@@ -32,23 +32,22 @@ namespace BACK
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Startup));
-
             // EF In Memory
             services.AddScoped<ICardService, CardService>()
                 .AddScoped<ICardRepository, CardRepository>()
                 .AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("dbmemory"));
 
+            // AutoMapper
+            services.AddAutoMapper(typeof(Startup));
+
             // Interfaces das Services
             services.AddScoped<ICardService, CardService>();
 
-
             // Interfaces dos Repositórios
-
+            services.AddScoped<ICardRepository, CardRepository>();
 
             //Controllers
             services.AddControllers();
-
 
             //Swagger
             services.AddSwaggerGen(c =>
@@ -67,13 +66,13 @@ namespace BACK
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BACK v1"));
             }
 
-            app.UseCors(config =>
-            {
-                config.AllowAnyOrigin();
-                config.AllowAnyHeader();
-                config.AllowAnyMethod();
+            //app.UseCors(config =>
+            //{
+            //    config.AllowAnyOrigin();
+            //    config.AllowAnyHeader();
+            //    config.AllowAnyMethod();
 
-            });
+            //});
 
             app.UseHttpsRedirection();
 

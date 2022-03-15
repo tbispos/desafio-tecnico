@@ -13,10 +13,7 @@ namespace Domain.Entidades
         public string               titulo      { get; set; }
         public string               conteudo    { get; set; }
         public Enums.ListaStatus    lista       { get; set; }
-        public Card()
-        {
-            //id = Guid.NewGuid();
-        }
+        
 
     }
 }
